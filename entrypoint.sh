@@ -2,16 +2,20 @@
 
 set -x
 
-TARGET_USERNAME="vasp"
+# Based on https://github.com/AlgoLab/HapCHAT/blob/master/docker/gosu.sh
 
-PUID=${PUID:-911}
-PGID=${PGID:-911}
+# Create a user matching owner of /workdir
+USER_ID=$(stat -c %u /rundir)
+GROUP_ID=$(stat -c %g /rundir)
 
-# Set target user's IDs to match that of the "external"/"host" user
-groupmod --non-unique --gid ${PGID} ${TARGET_USERNAME}
-usermod --non-unique --uid ${PUID} ${TARGET_USERNAME}
+echo "Creating user with UID:GID $USER_ID:$GROUP_ID"
+groupadd -g "$GROUP_ID" group
+useradd --shell /bin/bash -u "$USER_ID" -g group -o -c "" -m user
+export HOME=/
+export OMP_NUM_THREADS=1
 
-chown ${TARGET_USERNAME}:${TARGET_USERNAME} /rundir
+chown --recursive "${TARGET_USERNAME}":"${TARGET_USERNAME}" /rundir
 
+# Finally launch using gosu
 CMD=${@:-bash}
-runuser --user ${TARGET_USERNAME} -- ${CMD}
+exec gosu user $CMD
