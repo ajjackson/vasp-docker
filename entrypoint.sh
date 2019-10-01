@@ -3,6 +3,7 @@
 set -x
 
 # Based on https://github.com/AlgoLab/HapCHAT/blob/master/docker/gosu.sh
+ls /rundir
 
 # Create a user matching owner of /workdir
 USER_ID=$(stat -c %u /rundir)
