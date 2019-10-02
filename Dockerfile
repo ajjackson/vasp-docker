@@ -33,4 +33,4 @@ VOLUME ["/rundir"]
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 WORKDIR "/rundir"
 ENTRYPOINT ["sh", "/usr/local/bin/entrypoint.sh"]
-CMD ["mpirun", "-np 8", "--mca", "btl_vader_single_copy_mechanism", "none", "/opt/vasp.5.4.4/bin/vasp_std"]
+CMD ["mpirun", "-np 4", "--mca", "btl_vader_single_copy_mechanism", "none", "/opt/vasp.5.4.4/bin/vasp_std"]
