@@ -4,7 +4,7 @@ Some hacking to use Vasp in Docker containers. Local builds of DFT
 codes are useful, but modern operating systems/compilers may not play
 well with old code.
 
-This repo only contains Docker stuff and no Vasp code. To use it:
+This repo only contains Docker stuff and no Vasp code (apart from the makefile.include which... should be ok to share, right?). To use it:
 
 - Copy vasp.5.4.4.tar.gz and patch.5.4.4.16052018 into this directory
 - Delete previous image builds with `docker rmi vasp`
