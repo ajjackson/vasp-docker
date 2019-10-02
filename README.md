@@ -9,7 +9,7 @@ This repo only contains Docker stuff; to use it:
 - copy vasp.5.4.4.tar.gz and patch.5.4.4.16052018 into this directory
 - delete previous/failed docker image builds with `docker rmi vasp`
 - build with `docker build -t vasp .` when running, mount the
-- calculation directory to /rundir using something like `docker run
+  calculation directory to /rundir using something like `docker run
   --rm -v $PWD:/rundir:Z vasp`.
 
 (The `:Z` is necessary on systems with SELinux or write-permission
