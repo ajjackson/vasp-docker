@@ -1,5 +1,4 @@
-# Vasp with GNU, openmpi.
-# Loosely based on https://github.com/oweidner/docker.openmpi/blob/master/Dockerfile
+# Vasp with GNU, openmpi. Use this with podman to avoid file permissions madness
 FROM ubuntu:18.04
 
 # Discourage apt from trying to talk to you
@@ -30,7 +29,13 @@ RUN make all
 # DON'T FORGET TO MOUNT THIS WITH :Z IF USING SELINUX
 VOLUME ["/rundir"]
 
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+#RUN groupadd -r vasp && useradd --no-log-init -r -g vasp vasp
+#RUN chown vasp /rundir
+#USER vasp
+
+# COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+# ENTRYPOINT ["sh", "/usr/local/bin/entrypoint.sh"]
+
 WORKDIR "/rundir"
-ENTRYPOINT ["sh", "/usr/local/bin/entrypoint.sh"]
-CMD ["mpirun", "-np 4", "--mca", "btl_vader_single_copy_mechanism", "none", "/opt/vasp.5.4.4/bin/vasp_std"]
+
+CMD ["mpirun", "--allow-run-as-root", "-n", "4", "--mca", "btl_vader_single_copy_mechanism", "none", "/opt/vasp.5.4.4/bin/vasp_std"]
